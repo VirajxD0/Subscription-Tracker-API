@@ -2,7 +2,7 @@
 
 <div align="center">
   <br />
-        <img src="https://github.com/VirajxD0/Subscription-Tracker-API/blob/b14053fcecfde740361a5f8530a72a6246d1a1a5/assets/st.png" alt="Project Banner">
+        <img src="https://github.com/VirajxD0/Subscription-Tracker-API/blob/079ed9a3e3bfdac0089d8ced2cce34dc9138db2b/assets/st.png" alt="Project Banner">
   <br />
   
   <div>
