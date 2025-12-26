@@ -3,9 +3,9 @@ import aj from "../config/arcjet.js";
 const arcjetMiddleware = async (req, res, next) => {
   try {
     // ✅ Allow ALL dev tools in development
-    // if (process.env.NODE_ENV !== "production") {
-    //   return next();
-    // }
+    if (process.env.NODE_ENV !== "production") {
+      return next();
+    }
 
     const decision = await aj.protect(req, { requested: 1 });
 
@@ -18,7 +18,7 @@ const arcjetMiddleware = async (req, res, next) => {
         return res.status(403).json({ error: "Bot detected" });
       }
 
-      return res.status(403).json({ error: "Access denied" });
+      return res.status(403).json({ error: "Access Access denied" });
     }
 
     next();

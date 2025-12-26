@@ -1,0 +1,150 @@
+{
+  "info": {
+    "name": "Subscription Tracker API",
+    "_postman_id": "c12345f1-aaaa-bbbb-cccc-123456789000",
+    "description": "API Collection for Subscription Tracker",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Sign Up",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{SERVER_URL}}/auth/sign-up",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Viraj\",\n  \"email\": \"viraj@example.com\",\n  \"password\": \"password123\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Sign In",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{SERVER_URL}}/auth/sign-in",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"viraj@example.com\",\n  \"password\": \"password123\"\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Save JWT token\", function () {",
+                  "  const res = pm.response.json();",
+                  "  if (res?.data?.token) {",
+                  "    pm.environment.set(\"TOKEN\", res.data.token);",
+                  "    console.log(\"TOKEN saved:\", res.data.token);",
+                  "  } else {",
+                  "    console.warn(\"Token not found in response\");",
+                  "  }",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Sign Out",
+          "request": {
+            "method": "POST",
+            "url": "{{SERVER_URL}}/auth/sign-out"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Users",
+      "item": [
+        {
+          "name": "Get All Users",
+          "request": {
+            "method": "GET",
+            "url": "{{SERVER_URL}}/users"
+          }
+        },
+        {
+          "name": "Get User (Protected)",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{TOKEN}}" }],
+            "url": "{{SERVER_URL}}/users/{{USER_ID}}"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Subscriptions",
+      "item": [
+        {
+          "name": "Create Subscription (Protected)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{TOKEN}}" }
+            ],
+            "url": "{{SERVER_URL}}/subscriptions",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Netflix\",\n  \"price\": 499,\n  \"currency\": \"INR\",\n  \"renewalDate\": \"2025-02-10T00:00:00Z\",\n  \"status\": \"active\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Get All Subscriptions",
+          "request": {
+            "method": "GET",
+            "url": "{{SERVER_URL}}/subscriptions"
+          }
+        },
+        {
+          "name": "Get Subscription Details",
+          "request": {
+            "method": "GET",
+            "url": "{{SERVER_URL}}/subscriptions/{{SUBSCRIPTION_ID}}"
+          }
+        },
+        {
+          "name": "Get User Subscriptions (Protected)",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{TOKEN}}" }],
+            "url": "{{SERVER_URL}}/subscriptions/user/{{USER_ID}}"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Workflow",
+      "item": [
+        {
+          "name": "Trigger Reminder Workflow",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{SERVER_URL}}/workflows/subscription/reminder",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"subscriptionId\": \"{{SUBSCRIPTION_ID}}\"\n}"
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "variable": [
+    { "key": "SERVER_URL", "value": "http://localhost:5500/api/v1" },
+    { "key": "TOKEN", "value": "" },
+    { "key": "USER_ID", "value": "" },
+    { "key": "SUBSCRIPTION_ID", "value": "" }
+  ]
+}

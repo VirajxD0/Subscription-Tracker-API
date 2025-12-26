@@ -6,6 +6,7 @@ import User from "../models/user.model.js";
 import { JWT_SECRET, JWT_EXPIRES_IN } from "../config/env.js";
 
 export const signUp = async (req, res, next) => {
+  console.log("test");
   const session = await mongoose.startSession();
   session.startTransaction();
 
@@ -46,8 +47,11 @@ export const signUp = async (req, res, next) => {
       },
     });
   } catch (error) {
+    console.error("SIGN-UP ERROR:", error); // 👈 log error here
+
     await session.abortTransaction();
     session.endSession();
+
     next(error);
   }
 };
@@ -85,6 +89,7 @@ export const signIn = async (req, res, next) => {
       },
     });
   } catch (error) {
+    console.error("SIGN-IN ERROR:", error); // 👈 THIS LOGS TO CONSOLE
     next(error);
   }
 };
