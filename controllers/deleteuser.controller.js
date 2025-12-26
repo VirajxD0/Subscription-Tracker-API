@@ -7,3 +7,5 @@ export const getUsers = async (req, res, next) => {
     next(error);
   }
 };
+
+export const deleteusers = async (req, res, next) => {};
